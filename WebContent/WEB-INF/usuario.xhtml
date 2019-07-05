@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Cadastro de Professores</title>
+	<script>
+		PrimeFaces.locales['pt'] = {
+			closeText : 'Fechar',
+			prevText : 'Anterior',
+			nextText : 'Próximo',
+			currentText : 'Começo',
+			monthNames : [ 'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+					'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro',
+					'Novembro', 'Dezembro' ],
+			monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+					'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez' ],
+			dayNames : [ 'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta',
+					'Sexta', 'Sábado' ],
+			dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb' ],
+			dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S', 'S' ],
+			weekHeader : 'Semana',
+			firstDay : 0,
+			isRTL : false,
+			showMonthAfterYear : false,
+			yearSuffix : '',
+			timeOnlyTitle : 'Só Horas',
+			timeText : 'Tempo',
+			hourText : 'Hora',
+			minuteText : 'Minuto',
+			secondText : 'Segundo',
+			ampm : false,
+			month : 'Mês',
+			week : 'Semana',
+			day : 'Dia',
+			allDayText : 'Todo o Dia'
+		};
+	</script>
+</h:head>
+
+<h:body>
+
+	<h:form id="cadastro">
+		<p:messages/>
+		<p:panelGrid columns="2">
+		<f:facet name="header">
+		Cadastro de Professores
+		</f:facet>
+		
+		<h:outputLabel value="Professor" for="nome" />
+		<h:inputText id="nome" required="true" label="Nome do Prof"
+		value="#{professorBean.nome"/>
+		
+		<h:outputLabel value="Disciplina" for="disciplina" />
+		<h:inputText id="disciplina" required="true" label="Nome da Disciplina"
+		value="#{professorBean.disciplina"/>
+		
+		<h:outputLabel value="Disciplina" for="disciplina" />
+		<h:inputText id="disciplina" required="true" label="Nome da Disciplina"
+		value="#{professorBean.disciplina"/>
+
+			
+				<p:outputLabel value="Nome:" for="nome"/>
+				<p:inputText id="nome" label ="Nome"
+				value="#{professorBean.nome}" size="30" maxlength="30"
+				required="true" requiredMessage="Você não tem nome?">
+				<f:validateLength minimum="10" maximum="30" />
+				</p:inputText>
+				
+				<p:outputLabel value="Data:" for="data"/>
+				<p:calendar id="data" required="true"
+				value="#{professorBean.dataNascimento}" pattern="dd/MM/yyyy"
+				readonlyInput="true" navigator="true" pages="1" mode="popup"
+				maxdate="#{professorBean.dataHoje}" locale="pt" />
+				
+			<p:outputLabel value="Nome" for="nome" />
+			<h:panelGroup>
+				<p:inputTextarea id="nome" value="#{professorBean.descricao}" cols="40"
+					rows="4" autoResize="true" maxlength="100"
+					counterTemplate="Restam {0} caracteres" counter="contador"
+					completeMethod="#{professorBean.completarTexto}" />
+				<br />
+				<h:outputText id="contador" />
+			</h:panelGroup>
+			
+			<p:outputLabel value="Cidade" for="cidades" />
+			<p:selectOneMenu id="cidades" value="#{professorBean.cidade}">
+				<p:ajax event="change" process="@this" update="cidade"
+					listener="#{professorBean.carregarCidades}" />
+			
+			<f:selectItem itemLabel="Selecione" />
+				<f:selectItems value="#{professorBean.cidade}" var="pais"
+					itemLabel="#{cidade}" itemValue="#{cidade}" />
+			</p:selectOneMenu>
+			
+			<p:outputLabel value="Cidade" for="cidade" />
+			<p:selectOneMenu id="cidades" value="#{professorBean.cidade}">
+				<f:selectItem itemLabel="Selecione" />
+				<f:selectItems value="#{professorBean.cidades}" var="cidade"
+					itemLabel="#{cidade}" itemValue="#{cidade}" />
+			</p:selectOneMenu>
+				
+				<p:outputLabel value="Interesse" for="interesse" />
+			<p:selectOneListbox id="interesse" value="#{professorBean.cidade}"
+				required="true" converter="interesse" var="i"
+				style="width: 200px">
+				<f:selectItems value="#{professorBean.cidade}" var="interesse"
+					itemLabel="#{interesse.nomeInteresse}" itemValue="#{interesse}" />
+				
+				<p:column>
+					<h:graphicImage library="imagens" name="#{i.nomeIcone}.jpg"/>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{i.nomeInteresse}"/>
+				</p:column>
+			</p:selectOneListbox>
+			
+			<p:outputLabel value="Cursos" for="cursos" />
+			<p:selectOneListbox value="#{professorBean.faixaEtaria}" id="faixaEtaria">
+				<f:selectItem itemLabel="Programacao" itemValue="1" />
+				<f:selectItem itemLabel="Banco" itemValue="2" />
+				<f:selectItem itemLabel="Web" itemValue="3" />
+				<f:selectItem itemLabel="Redes" itemValue="4" />
+				<f:selectItem itemLabel="ERP" itemValue="5" />
+				<f:selectItem itemLabel="ASDD" itemValue="6" />
+			</p:selectOneListbox>
+				
+				<p:outputLabel value="Inserir senha" for="senha" />
+			<p:password id="senha" required="true"
+				value="#{professorBean.senha}" feedback="true"
+				promptLabel="Informe uma senha professor"
+				weakLabel="Fraca" goodLabel="Boa" strongLabel="Forte" inline="true"
+				match="confirmacaoSenha" />
+
+			<p:outputLabel value="Confirme a Senha"
+				for="confirmacaoSenha" />
+			<p:password id="confirmacaoSenha" required="true" />
+				
+				
+				<p:outputLabel value="Disciplina:" for="disciplina"/>
+				<p:inputText id="disciplina" label ="Disciplina"
+				value="#{professorBean.disciplina}" size="10"/>
+			
+			<p:outputLabel value="Período:" for="idioma" />
+			<p:selectOneMenu id="periodo" value="#{professorBean.periodo}">
+				<f:selectItem itemValue="pt_BR" itemLabel="Matutino" />
+				<f:selectItem itemValue="en_US" itemLabel="Vesperino" />
+				<f:selectItem itemValue="es_ES" itemLabel="Noturno" />
+			</p:selectOneMenu>
+				
+				
+				
+			<p:outputLabel value="Login:" for="login" />
+				<p:inputText id="login" label="Login"
+				value="#{professorBean.login}" size="15" maxlength="15"
+				required="true"
+				validatorMessage=
+				"Login no mínimo 5 e no máximo 15 caracters e só pode ter os simbolos '.' e '_'.">
+				<f:validateRegex pattern="([a-z]|[0-9]|[.]|[_]){5,15}" />
+				</p:inputText>
+			
+		
+		
+<p:outputLabel value="Nome" for="nome"/>
+
+<p:inputText id="nome" required="true" value="#{menuSelecaoAjaxBean.nome}"/>
+
+			<p:outputLabel value="Modalidade" for="disciplina" />
+			
+<p:selectOneMenu id="estado" value="#{menuSelecaoAjaxBean.disciplina}">
+				<p:ajax event="change" process="@this" update="disciplina"
+					listener="#{menuSelecaoAjaxBean.carregarDisciplina}" />
+</p:selectOneMenu>					
+
+   			  			
+
+			
+</p:selectOneMenu>
+
+		<f:facet name="footer">
+				<p:commandButton value="Cadastrar" ajax="false" action="#{professorBean.cadastrar}" update="@form"/>
+			</f:facet>
+		</p:panelGrid>	
+	</h:form>
+		
+</h:body>
+
+</html>
